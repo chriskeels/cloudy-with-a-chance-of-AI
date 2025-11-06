@@ -1,0 +1,17 @@
+/* WeatherCard Component Styles */
+
+.weather-temp-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.current-temp-large {
+  font-size: 2.5rem;
+}
+
+.weather-icon {
+  width: 64px;
+  height: 64px;
+  display: block;
+}

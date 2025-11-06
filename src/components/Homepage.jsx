@@ -71,7 +71,7 @@ export default function Homepage() {
 
       // CONCEPT: API Calls - Using fetch() to make HTTP request to weather API
       const res = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityToSearch}&days=5`
+        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityToSearch}&days=10`
       )
       const data = await res.json()
 
@@ -98,16 +98,48 @@ export default function Homepage() {
       })
 
       // Transform forecast data into the format our components expect
-      setForecast(
-        data.forecast.forecastday.map((day) => ({
-          day: new Date(day.date).toLocaleDateString('en-US', {
-            weekday: 'long'
-          }),
-          temp: day.day.avgtemp_f,
-          condition: day.day.condition.text,
-          icon: `https:${day.day.condition.icon}`
-        }))
-      )
+      // Always show 7 days starting from today
+      const today = new Date()
+      today.setHours(0, 0, 0, 0) // Reset to start of day for comparison
+      
+      // Create exactly 7 days starting from today
+      const forecast7Days = []
+      for (let i = 0; i < 7; i++) {
+        const targetDate = new Date(today)
+        targetDate.setDate(today.getDate() + i)
+        
+        // Find matching day in API data
+        const matchingDay = data.forecast.forecastday.find(day => {
+          const dayDate = new Date(day.date)
+          dayDate.setHours(0, 0, 0, 0)
+          return dayDate.getTime() === targetDate.getTime()
+        })
+        
+        const dayName = i === 0 ? 'Today' : targetDate.toLocaleDateString('en-US', {
+          weekday: 'long'
+        })
+        
+        if (matchingDay) {
+          // Use real API data
+          forecast7Days.push({
+            day: dayName,
+            temp: Math.round(matchingDay.day.avgtemp_f),
+            condition: matchingDay.day.condition.text,
+            icon: `https:${matchingDay.day.condition.icon}`
+          })
+        } else {
+          // Use the last available day's data as fallback (better than placeholder)
+          const lastAvailableDay = data.forecast.forecastday[data.forecast.forecastday.length - 1]
+          forecast7Days.push({
+            day: dayName,
+            temp: Math.round(lastAvailableDay.day.avgtemp_f),
+            condition: lastAvailableDay.day.condition.text,
+            icon: `https:${lastAvailableDay.day.condition.icon}`
+          })
+        }
+      }
+      
+      setForecast(forecast7Days)
     } catch (err) {
       console.error(err)
       setError('Failed to fetch weather data.')
@@ -121,7 +153,6 @@ export default function Homepage() {
   // Empty dependency array [] means this runs once on mount, like componentDidMount
   // 🧠 Auto-detect location by IP on load for better user experience
   useEffect(() => {
-    console.log('Homepage component mounted, fetching weather for auto:ip')
     fetchWeather('auto:ip')
   }, []) // Empty dependency array = run once on mount
 
@@ -139,8 +170,8 @@ export default function Homepage() {
 
       {/* Conditional rendering based on state - shows different UI based on loading/error states */}
       {loading && <p>Loading your local weather...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {stateConversionMessage && <p style={{ color: '#0ea5e9', fontStyle: 'italic' }}>{stateConversionMessage}</p>}
+      {error && <p className="error-message">{error}</p>}
+      {stateConversionMessage && <p className="state-conversion-message">{stateConversionMessage}</p>}
 
       {/* 
         CONCEPT: Passing Props - Passing state data down to child components

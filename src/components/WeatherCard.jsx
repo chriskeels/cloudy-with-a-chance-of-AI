@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import '../style/WeatherCard.css'
 
 /**
  * WeatherCard Component
@@ -53,8 +54,8 @@ export default function WeatherCard({ weather }) {
       {/* CONCEPT: Passing Props - Accessing data from the weather prop object */}
       <h2 className="current-location">{weather.location}</h2>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div className="current-temp" style={{ fontSize: '2.5rem' }}>
+      <div className="weather-temp-container">
+        <div className="current-temp current-temp-large">
           {weather.temp}°F
         </div>
 
@@ -64,7 +65,7 @@ export default function WeatherCard({ weather }) {
             key={iconUrl}
             src={iconUrl}
             alt={weather.condition || 'weather icon'}
-            style={{ width: '64px', height: '64px', display: 'block' }}
+            className="weather-icon"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}

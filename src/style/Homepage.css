@@ -336,3 +336,13 @@ html, body {
     width: 100%;
   }
 }
+
+/* Status Messages */
+.error-message {
+  color: red;
+}
+
+.state-conversion-message {
+  color: #0ea5e9;
+  font-style: italic;
+}

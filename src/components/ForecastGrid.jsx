@@ -1,4 +1,5 @@
 import React from 'react'
+import '../style/ForecastGrid.css'
 
 /**
  * ForecastGrid Component
@@ -28,11 +29,11 @@ export default function ForecastGrid({ forecast }) {
           <div className="forecast-day">{day.day}</div>
 
           {/* ✅ Show image instead of link */}
-          <div style={{ margin: '0.5rem 0' }}>
+          <div className="forecast-icon-container">
             <img
               src={day.icon}
               alt={day.condition}
-              style={{ width: '64px', height: '64px' }}
+              className="forecast-icon"
             />
           </div>
 

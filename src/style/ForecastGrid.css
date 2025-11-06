@@ -1,0 +1,10 @@
+/* ForecastGrid Component Styles */
+
+.forecast-icon-container {
+  margin: 0.5rem 0;
+}
+
+.forecast-icon {
+  width: 64px;
+  height: 64px;
+}
