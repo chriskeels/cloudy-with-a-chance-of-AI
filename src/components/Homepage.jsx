@@ -19,7 +19,7 @@ export default function Homepage() {
       setLoading(true)
 
       const res = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5`
+        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=7`
       )
       const data = await res.json()
 
@@ -74,7 +74,7 @@ export default function Homepage() {
       <SearchBar onSearch={fetchWeather} />
 
       {loading && <p>Loading your local weather...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && {error}}
 
       <WeatherCard weather={currentWeather} />
       <ForecastGrid forecast={forecast} />
