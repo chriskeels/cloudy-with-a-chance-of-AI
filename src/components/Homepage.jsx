@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import SearchBar from '../components/SearchBar'
 import WeatherCard from '../components/WeatherCard'
 import ForecastGrid from '../components/ForecastGrid'
+import { processSearchInput } from '../utils/citySearch'
 
 /**
  * Homepage Component
@@ -34,6 +35,7 @@ export default function Homepage() {
   const [forecast, setForecast] = useState([]) // Stores array of forecast days
   const [error, setError] = useState('') // Stores error messages for user feedback
   const [loading, setLoading] = useState(false) // Tracks loading state for better UX
+  const [stateConversionMessage, setStateConversionMessage] = useState('') // Message when state is converted to city
 
   // Environment variable access for API key - keeps sensitive data secure
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
@@ -42,17 +44,27 @@ export default function Homepage() {
    * CONCEPT: API Calls - Async function that fetches weather data from external API
    * Demonstrates proper error handling, loading states, and data transformation
    * 
-   * @param {string} city - City name or 'auto:ip' for location detection
+   * @param {string} searchInput - User search input (city name, state name, or 'auto:ip' for location detection)
    */
-  async function fetchWeather(city) {
+  async function fetchWeather(searchInput) {
     try {
       // Reset error state and set loading to true
       setError('')
       setLoading(true)
+      setStateConversionMessage('')
+
+      // Process search input - convert state names to random cities
+      // Skip processing for special cases like 'auto:ip'
+      const cityToSearch = searchInput === 'auto:ip' ? searchInput : processSearchInput(searchInput)
+      
+      // Show user which city was selected if a state was entered
+      if (cityToSearch !== searchInput && searchInput !== 'auto:ip') {
+        setStateConversionMessage(`Found state "${searchInput}" - showing weather for ${cityToSearch}`)
+      }
 
       // CONCEPT: API Calls - Using fetch() to make HTTP request to weather API
       const res = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${city}&days=5`
+        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityToSearch}&days=5`
       )
       const data = await res.json()
 
@@ -61,6 +73,7 @@ export default function Homepage() {
         setError('City not found')
         setCurrentWeather(null)
         setForecast([])
+        setStateConversionMessage('')
         return
       }
 
@@ -119,6 +132,7 @@ export default function Homepage() {
       {/* Conditional rendering based on state - shows different UI based on loading/error states */}
       {loading && <p>Loading your local weather...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+      {stateConversionMessage && <p style={{ color: '#0ea5e9', fontStyle: 'italic' }}>{stateConversionMessage}</p>}
 
       {/* 
         CONCEPT: Passing Props - Passing state data down to child components

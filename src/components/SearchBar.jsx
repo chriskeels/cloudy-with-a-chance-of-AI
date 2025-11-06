@@ -48,7 +48,7 @@ export default function SearchBar({ onSearch }) {
         <input
           type="text"
           className="search-input"
-          placeholder="Search for a city..."
+          placeholder="Search for a city or state..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={handleKeyPress}
