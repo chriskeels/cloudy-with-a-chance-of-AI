@@ -36,9 +36,34 @@ export default function Homepage() {
   const [error, setError] = useState('') // Stores error messages for user feedback
   const [loading, setLoading] = useState(false) // Tracks loading state for better UX
   const [stateConversionMessage, setStateConversionMessage] = useState('') // Message when state is converted to city
+  const [timeOfDay, setTimeOfDay] = useState('') // Tracks current time of day for styling
+  const [testTime, setTestTime] = useState(null) // For testing different times of day
 
   // Environment variable access for API key - keeps sensitive data secure
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
+
+  /**
+   * Determines the current time of day based on hour
+   * @returns {string} - 'morning', 'afternoon', 'evening', or 'night'
+   */
+  function getTimeOfDay() {
+    const hour = testTime !== null ? testTime : new Date().getHours()
+    if (hour >= 6 && hour < 12) return 'morning'
+    if (hour >= 12 && hour < 17) return 'afternoon'
+    if (hour >= 17 && hour < 20) return 'evening'
+    return 'night'
+  }
+
+  /**
+   * Cycles through different times of day for testing purposes
+   */
+  function cycleTimeOfDay() {
+    const times = [8, 14, 18, 22]
+    const current = testTime !== null ? testTime : new Date().getHours()
+    const currentIndex = times.findIndex(time => time === current)
+    const nextIndex = (currentIndex + 1) % times.length
+    setTestTime(times[nextIndex])
+  }
 
   /**
    * CONCEPT: API Calls - Async function that fetches weather data from external API
@@ -62,11 +87,29 @@ export default function Homepage() {
 
       // Process search input - convert state names to random cities
       // Skip processing for special cases like 'auto:ip'
-      const cityToSearch = searchInput === 'auto:ip' ? searchInput : processSearchInput(searchInput)
+      let cityToSearch
+      let conversionInfo = null
       
-      // Show user which city was selected if a state was entered
-      if (cityToSearch !== searchInput && searchInput !== 'auto:ip') {
-        setStateConversionMessage(`Found state "${searchInput}" - showing weather for ${cityToSearch}`)
+      if (searchInput === 'auto:ip') {
+        cityToSearch = searchInput
+      } else {
+        try {
+          conversionInfo = processSearchInput(searchInput)
+          cityToSearch = conversionInfo.city
+        } catch (validationError) {
+          setError(validationError.message)
+          setLoading(false)
+          return
+        }
+      }
+      
+      // Show user which city was selected based on conversion type
+      if (conversionInfo && conversionInfo.type !== 'direct') {
+        if (conversionInfo.type === 'nickname') {
+          setStateConversionMessage(`Found city nickname "${conversionInfo.original}" - showing weather for ${conversionInfo.city}`)
+        } else if (conversionInfo.type === 'state') {
+          setStateConversionMessage(`Found state "${conversionInfo.original}" - showing weather for ${conversionInfo.city}`)
+        }
       }
 
       // CONCEPT: API Calls - Using fetch() to make HTTP request to weather API
@@ -156,30 +199,77 @@ export default function Homepage() {
     fetchWeather('auto:ip')
   }, []) // Empty dependency array = run once on mount
 
+  // useEffect to update time of day when testTime changes
+  useEffect(() => {
+    setTimeOfDay(getTimeOfDay())
+  }, [testTime])
+
   return (
-    <div className="homepage-container">
+    <div className={`homepage-container ${timeOfDay}`}>
       <header className="homepage-header">
         <div className="homepage-logo">⛅ Cloudy with AI</div>
+        <div className="homepage-nav">
+          <button className="nav-btn" onClick={cycleTimeOfDay}>
+            {timeOfDay === 'morning' && '☀️ Morning'}
+            {timeOfDay === 'afternoon' && '🌤️ Afternoon'}
+            {timeOfDay === 'evening' && '🌅 Evening'}
+            {timeOfDay === 'night' && '🌙 Night'}
+          </button>
+        </div>
       </header>
 
-      {/* 
-        CONCEPT: Passing Props - Passing the fetchWeather function to SearchBar component
-        This allows the child component to trigger data fetching in the parent
-      */}
-      <SearchBar onSearch={fetchWeather} />
+      <main className="homepage-main">
+        <div className="main-content">
+          {/* 
+            CONCEPT: Passing Props - Passing the fetchWeather function to SearchBar component
+            This allows the child component to trigger data fetching in the parent
+          */}
+          <SearchBar onSearch={fetchWeather} />
 
-      {/* Conditional rendering based on state - shows different UI based on loading/error states */}
-      {loading && <p>Loading your local weather...</p>}
-      {error && <p className="error-message">{error}</p>}
-      {stateConversionMessage && <p className="state-conversion-message">{stateConversionMessage}</p>}
+          {/* Conditional rendering based on state - shows different UI based on loading/error states */}
+          {loading && <p className="status-message loading">Loading your local weather...</p>}
+          {error && <p className="status-message error">{error}</p>}
+          {stateConversionMessage && <p className="status-message info">{stateConversionMessage}</p>}
 
-      {/* 
-        CONCEPT: Passing Props - Passing state data down to child components
-        WeatherCard receives current weather data, ForecastGrid receives forecast array
-        This demonstrates how data flows down the component tree through props
-      */}
-      <WeatherCard weather={currentWeather} />
-      <ForecastGrid forecast={forecast} />
+          {/* 
+            CONCEPT: Passing Props - Passing state data down to child components
+            WeatherCard receives current weather data, ForecastGrid receives forecast array
+            This demonstrates how data flows down the component tree through props
+          */}
+          <WeatherCard weather={currentWeather} />
+          <div className="forecast-section">
+            <ForecastGrid forecast={forecast} />
+          </div>
+        </div>
+
+        {/* Sidebar with additional weather details */}
+        {currentWeather && (
+          <div className="sidebar-content">
+            <div className="info-card">
+              <h3 className="info-card-title">Weather Details</h3>
+              <div className="info-card-content">
+                <p>
+                  Today's conditions in {currentWeather.location.split(',')[0]} are{' '}
+                  {currentWeather.condition.toLowerCase()}. The current temperature feels comfortable
+                  at {currentWeather.temp}°F.
+                </p>
+              </div>
+            </div>
+            <div className="info-card">
+              <h3 className="info-card-title">Air Quality</h3>
+              <div className="info-card-content">
+                <p>
+                  UV Index: {currentWeather.uvIndex}/10
+                  <br />
+                  Humidity: {currentWeather.humidity}%
+                  <br />
+                  Pressure: {(currentWeather.pressure * 0.02953).toFixed(2)} inHg
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import '../style/SearchBar.css'
 
 /**
  * SearchBar Component
@@ -24,8 +25,23 @@ export default function SearchBar({ onSearch }) {
    * Validates input and calls parent's onSearch function
    */
   const handleSearch = () => {
-    // Input validation - only search if there's actual text (not just whitespace)
-    if (query.trim()) onSearch(query)
+    const trimmedQuery = query.trim()
+    
+    // Input validation - only search if there's actual text and it's not just numbers
+    if (trimmedQuery && !isNumericOnly(trimmedQuery)) {
+      onSearch(trimmedQuery)
+    }
+  }
+
+  /**
+   * Check if input contains only numbers (including decimals, spaces, and common separators)
+   * @param {string} input - The input string to validate
+   * @returns {boolean} - True if input contains only numeric characters
+   */
+  const isNumericOnly = (input) => {
+    // Remove spaces and check if remaining characters are only digits, dots, commas, or dashes
+    const cleanedInput = input.replace(/\s/g, '')
+    return /^[\d.,\-+()]*$/.test(cleanedInput) && /\d/.test(cleanedInput)
   }
 
   /**
@@ -48,7 +64,7 @@ export default function SearchBar({ onSearch }) {
         <input
           type="text"
           className="search-input"
-          placeholder="Search for a city or state..."
+          placeholder="Enter a city or state name (no numbers)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyPress={handleKeyPress}
