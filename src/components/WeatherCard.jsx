@@ -50,34 +50,33 @@ export default function WeatherCard({ weather }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      {/* CONCEPT: Passing Props - Accessing data from the weather prop object */}
-      <h2 className="current-location">{weather.location}</h2>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <div className="current-temp" style={{ fontSize: '2.5rem' }}>
-          {weather.temp}°F
+      <div className="weather-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+        <div className="weather-main-info">
+          {/* CONCEPT: Passing Props - Accessing data from the weather prop object */}
+          <h2 className="current-location">{weather.location}</h2>
+          <div className="weather-temp-container" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '0.5rem' }}>
+            <div className="current-temp">{weather.temp}°F</div>
+            {/* Conditional rendering with proper error handling */}
+            {iconUrl ? (
+              <motion.img
+                key={iconUrl}
+                src={iconUrl}
+                alt={weather.condition || 'weather icon'}
+                style={{ width: '80px', height: '80px', display: 'block' }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                onError={(e) => {
+                  // if image fails to load, hide it and log
+                  e.currentTarget.style.display = 'none'
+                  console.error('Weather icon failed to load:', iconUrl)
+                }}
+              />
+            ) : null}
+          </div>
+          <p className="weather-description">{weather.condition}</p>
         </div>
-
-        {/* Conditional rendering with proper error handling */}
-        {iconUrl ? (
-          <motion.img
-            key={iconUrl}
-            src={iconUrl}
-            alt={weather.condition || 'weather icon'}
-            style={{ width: '64px', height: '64px', display: 'block' }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            onError={(e) => {
-              // if image fails to load, hide it and log
-              e.currentTarget.style.display = 'none'
-              console.error('Weather icon failed to load:', iconUrl)
-            }}
-          />
-        ) : null}
       </div>
-
-      <p className="weather-description">{weather.condition}</p>
 
       {/* Weather details section demonstrating data display and calculations */}
       <div className="weather-details">

@@ -1,66 +1,300 @@
-/* Reset */
+/* ==========================================
+   LAPTOP-OPTIMIZED WEATHER APP STYLES
+   ========================================== */
+
+/* Reset and base styles - ensure Homepage styles take precedence */
 html, body {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100%;
   overflow-x: hidden;
+  background: transparent !important; /* Override any global backgrounds */
 }
 
 :root{
   --blue-500: #0ea5e9;
   --blue-600: #0284c7;
   --blue-400: #38bdf8;
+  --blue-700: #0369a1;
   --yellow-400: #fbbf24;
   --yellow-300: #fcd34d;
   --white: #ffffff;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
   --muted: #6b7280;
   --text-dark: #1e293b;
-  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --glass-bg: rgba(255, 255, 255, 0.1);
 }
 
-/* Homepage container with weather-themed gradient */
+/* Homepage container with enhanced gradient for laptop screens */
 .homepage-container {
   min-height: 100vh;
   width: 100%;
-  background: 
-    radial-gradient(circle at 20% 15%, rgba(251, 191, 36, 0.2) 0%, transparent 35%),
-    radial-gradient(circle at 80% 20%, rgba(252, 211, 77, 0.15) 0%, transparent 40%),
-    radial-gradient(circle at 90% 85%, rgba(251, 191, 36, 0.1) 0%, transparent 50%),
-    linear-gradient(180deg, 
-      #0ea5e9 0%, 
-      #38bdf8 20%, 
-      #7dd3fc 45%, 
-      #bae6fd 65%, 
-      #e0f2fe 82%, 
-      #ffffff 100%
-    );
-  padding: 2rem;
+  padding: 1.5rem;
   box-sizing: border-box;
+  transition: background 2s ease-in-out;
+  position: relative;
 }
 
-/* Header section */
+/* ==========================================
+   TIME-BASED BACKGROUND STYLES
+   ========================================== */
+
+/* Morning (6am - 12pm): Light blue morning sky */
+.homepage-container.morning {
+  background: 
+    radial-gradient(circle at 20% 15%, rgba(251, 191, 36, 0.4) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(252, 211, 77, 0.3) 0%, transparent 45%),
+    radial-gradient(circle at 40% 70%, rgba(56, 189, 248, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, 
+      #87ceeb 0%, 
+      #98d8f0 25%, 
+      #a8e6f7 50%, 
+      #bae6fd 75%, 
+      #e0f2fe 90%, 
+      #ffffff 100%
+    ) !important;
+}
+
+/* Afternoon (12pm - 5pm): Bright daytime sky */
+.homepage-container.afternoon {
+  background: 
+    radial-gradient(circle at 20% 15%, rgba(251, 191, 36, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(252, 211, 77, 0.2) 0%, transparent 45%),
+    radial-gradient(circle at 40% 70%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 90% 85%, rgba(251, 191, 36, 0.15) 0%, transparent 60%),
+    linear-gradient(135deg, 
+      #0ea5e9 0%, 
+      #38bdf8 25%, 
+      #7dd3fc 50%, 
+      #bae6fd 75%, 
+      #e0f2fe 90%, 
+      #ffffff 100%
+    ) !important;
+}
+
+/* Evening (5pm - 8pm): Golden hour/sunset */
+.homepage-container.evening {
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(251, 146, 60, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.2) 0%, transparent 70%),
+    linear-gradient(135deg, 
+      #f59e0b 0%, 
+      #fb923c 20%, 
+      #fbbf24 40%, 
+      #fcd34d 60%, 
+      #fde68a 80%, 
+      #fef3c7 100%
+    ) !important;
+}
+
+/* Night (8pm - 6am): Dark purple night with stars */
+.homepage-container.night {
+  background: 
+    radial-gradient(circle at 20% 15%, rgba(139, 92, 246, 0.3) 0%, transparent 40%),
+    radial-gradient(circle at 80% 25%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 70%, rgba(67, 56, 202, 0.15) 0%, transparent 60%),
+    linear-gradient(135deg, 
+      #1e1b4b 0%, 
+      #312e81 25%, 
+      #3730a3 50%, 
+      #4338ca 75%, 
+      #6366f1 90%, 
+      #818cf8 100%
+    ) !important;
+}
+
+/* Animated stars for night time */
+.homepage-container.night::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    /* Large bright stars */
+    radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+    radial-gradient(2px 2px at 160px 30px, #ffffff, transparent),
+    radial-gradient(2px 2px at 240px 50px, #ffffff, transparent),
+    radial-gradient(2px 2px at 80px 150px, #ffffff, transparent),
+    radial-gradient(2px 2px at 300px 120px, #ffffff, transparent),
+    
+    /* Medium stars */
+    radial-gradient(1.5px 1.5px at 40px 70px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 200px 100px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 120px 25px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 280px 160px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 60px 180px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 320px 80px, rgba(255, 255, 255, 0.9), transparent),
+    
+    /* Small twinkling stars */
+    radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 280px 90px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 50px 120px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 180px 60px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 220px 140px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 350px 40px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 30px 90px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 270px 20px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 100px 170px, rgba(255, 255, 255, 0.6), transparent),
+    
+    /* Tiny distant stars */
+    radial-gradient(0.5px 0.5px at 70px 50px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(0.5px 0.5px at 150px 120px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.5px 0.5px at 250px 80px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(0.5px 0.5px at 300px 160px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.5px 0.5px at 40px 140px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.5px 0.5px at 190px 30px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.5px 0.5px at 110px 110px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.5px 0.5px at 260px 120px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.5px 0.5px at 330px 60px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.5px 0.5px at 80px 190px, rgba(255, 255, 255, 0.4), transparent);
+  background-repeat: repeat;
+  background-size: 350px 200px;
+  animation: twinkle 4s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.2;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+  75% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1.2);
+  }
+}
+
+/* Additional star layer for more depth - only visible at night */
+.homepage-container.night::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    /* Second layer of stars with different positions */
+    radial-gradient(1px 1px at 35px 60px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 175px 45px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(0.8px 0.8px at 295px 95px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 65px 130px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.2px 1.2px at 215px 165px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(0.6px 0.6px at 135px 15px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 315px 135px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(0.8px 0.8px at 85px 75px, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1.3px 1.3px at 255px 185px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(0.7px 0.7px at 25px 155px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 185px 85px, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(0.9px 0.9px at 305px 25px, rgba(255, 255, 255, 0.6), transparent),
+    
+    /* More tiny scattered stars */
+    radial-gradient(0.4px 0.4px at 55px 105px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.5px 0.5px at 125px 145px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.4px 0.4px at 235px 35px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.6px 0.6px at 275px 155px, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(0.4px 0.4px at 15px 85px, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(0.5px 0.5px at 165px 125px, rgba(255, 255, 255, 0.3), transparent);
+  background-repeat: repeat;
+  background-size: 330px 190px;
+  animation: twinkle-slow 6s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -2;
+}
+
+@keyframes twinkle-slow {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+  30% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  70% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Header section - optimized for laptops */
 .homepage-header {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2.5rem;
   background: var(--card-bg);
-  border-radius: 1.25rem;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(20px);
+  box-shadow: 
+    0 10px 40px rgba(14, 165, 233, 0.15),
+    0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 300ms ease;
+}
+
+/* Time-based header adjustments */
+.night .homepage-header {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 
+    0 10px 40px rgba(139, 92, 246, 0.2),
+    0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.evening .homepage-header {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 
+    0 10px 40px rgba(251, 146, 60, 0.2),
+    0 0 1px rgba(255, 255, 255, 0.6);
 }
 
 .homepage-logo {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: var(--blue-600);
+  color: var(--blue-700);
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-shadow: 0 2px 8px rgba(14, 165, 233, 0.1);
+  transition: all 300ms ease;
+}
+
+/* Time-based logo color adjustments */
+.night .homepage-logo {
+  color: #e0e7ff;
+  text-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.evening .homepage-logo {
+  color: #78350f;
+  text-shadow: 0 2px 8px rgba(251, 146, 60, 0.2);
 }
 
 .homepage-nav {
@@ -69,44 +303,119 @@ html, body {
 }
 
 .nav-btn {
-  padding: 0.625rem 1.25rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(14, 165, 233, 0.15);
-  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 12px;
   color: var(--blue-600);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 200ms ease;
+  transition: all 300ms ease;
+  backdrop-filter: blur(10px);
 }
 
 .nav-btn:hover {
   background: var(--white);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.2);
+  border-color: var(--blue-400);
 }
 
-/* Main content area */
+/* Main content area - two-column layout for laptops */
 .homepage-main {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-/* Weather card - main focal point */
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 1.5rem;
+}
+
+/* Status messages */
+.status-message {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-message.loading {
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--blue-700);
+  border-color: rgba(56, 189, 248, 0.3);
+}
+
+.status-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #dc2626;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.status-message.info {
+  background: rgba(14, 165, 233, 0.1);
+  color: var(--blue-600);
+  border-color: rgba(14, 165, 233, 0.3);
+  font-style: italic;
+}
+
+/* Weather card - main focal point with enhanced design */
 .weather-card-large {
-  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.85) 100%);
+  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.9) 100%);
   border-radius: 2rem;
   padding: 3rem;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(20px);
   box-shadow: 
-    0 20px 60px rgba(14, 165, 233, 0.15),
-    0 0 1px rgba(251, 191, 36, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.6);
+    0 25px 80px rgba(14, 165, 233, 0.2),
+    0 0 2px rgba(255, 255, 255, 0.8),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.7);
   position: relative;
   overflow: hidden;
+  transition: all 400ms ease;
+}
+
+/* Time-based weather card adjustments */
+.night .weather-card-large {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 25px 80px rgba(139, 92, 246, 0.3),
+    0 0 2px rgba(255, 255, 255, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.evening .weather-card-large {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 
+    0 25px 80px rgba(251, 146, 60, 0.25),
+    0 0 2px rgba(255, 255, 255, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.weather-card-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 30px 100px rgba(14, 165, 233, 0.25),
+    0 0 4px rgba(255, 255, 255, 0.9),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
 }
 
 .weather-card-large::before {
@@ -114,47 +423,187 @@ html, body {
   position: absolute;
   top: -50%;
   right: -20%;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
   pointer-events: none;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* ==========================================
+   ANIMATED CLOUDS BACKGROUND SYSTEM
+   ========================================== */
+
+/* Cloud animation - moves from right to left */
+@keyframes driftClouds {
+  0% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+}
+
+/* Cloud container - positioned behind content */
+.homepage-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -2;
+  background-image:
+    /* Cloud 1 */
+    radial-gradient(ellipse 120px 40px at 20% 25%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4) 30%, transparent 50%),
+    radial-gradient(ellipse 80px 30px at 18% 23%, rgba(255, 255, 255, 0.5), transparent 40%),
+    radial-gradient(ellipse 60px 25px at 22% 27%, rgba(255, 255, 255, 0.4), transparent 35%),
+    
+    /* Cloud 2 */
+    radial-gradient(ellipse 100px 35px at 60% 40%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3) 30%, transparent 50%),
+    radial-gradient(ellipse 70px 25px at 58% 38%, rgba(255, 255, 255, 0.4), transparent 40%),
+    radial-gradient(ellipse 50px 20px at 62% 42%, rgba(255, 255, 255, 0.3), transparent 35%),
+    
+    /* Cloud 3 */
+    radial-gradient(ellipse 140px 45px at 85% 15%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 30%, transparent 50%),
+    radial-gradient(ellipse 90px 35px at 83% 13%, rgba(255, 255, 255, 0.3), transparent 40%),
+    radial-gradient(ellipse 70px 30px at 87% 17%, rgba(255, 255, 255, 0.2), transparent 35%),
+    
+    /* Cloud 4 */
+    radial-gradient(ellipse 110px 38px at 40% 70%, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1) 30%, transparent 50%),
+    radial-gradient(ellipse 75px 28px at 38% 68%, rgba(255, 255, 255, 0.2), transparent 40%),
+    
+    /* Cloud 5 */
+    radial-gradient(ellipse 90px 32px at 75% 85%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 30%, transparent 50%),
+    radial-gradient(ellipse 60px 22px at 73% 83%, rgba(255, 255, 255, 0.3), transparent 40%);
+  
+  background-size: 100% 100%;
+  animation: driftClouds 60s linear infinite;
+}
+
+/* Additional cloud layer for more depth */
+.homepage-container.morning::after,
+.homepage-container.afternoon::after {
+  opacity: 0.7;
+  animation-duration: 45s;
+}
+
+.homepage-container.evening::after {
+  opacity: 0.4;
+  animation-duration: 50s;
+  background-image:
+    /* Evening clouds with warmer tint */
+    radial-gradient(ellipse 120px 40px at 20% 25%, rgba(255, 220, 180, 0.5), rgba(255, 200, 150, 0.3) 30%, transparent 50%),
+    radial-gradient(ellipse 80px 30px at 18% 23%, rgba(255, 210, 160, 0.4), transparent 40%),
+    radial-gradient(ellipse 60px 25px at 22% 27%, rgba(255, 200, 140, 0.3), transparent 35%),
+    radial-gradient(ellipse 100px 35px at 60% 40%, rgba(255, 215, 170, 0.4), rgba(255, 195, 145, 0.2) 30%, transparent 50%),
+    radial-gradient(ellipse 70px 25px at 58% 38%, rgba(255, 205, 155, 0.3), transparent 40%),
+    radial-gradient(ellipse 50px 20px at 62% 42%, rgba(255, 195, 145, 0.2), transparent 35%),
+    radial-gradient(ellipse 140px 45px at 85% 15%, rgba(255, 225, 185, 0.3), rgba(255, 205, 165, 0.1) 30%, transparent 50%),
+    radial-gradient(ellipse 90px 35px at 83% 13%, rgba(255, 215, 175, 0.2), transparent 40%),
+    radial-gradient(ellipse 110px 38px at 40% 70%, rgba(255, 210, 170, 0.2), rgba(255, 190, 150, 0.1) 30%, transparent 50%),
+    radial-gradient(ellipse 90px 32px at 75% 85%, rgba(255, 220, 180, 0.3), rgba(255, 200, 160, 0.1) 30%, transparent 50%);
+}
+
+.homepage-container.night::after {
+  opacity: 0.2;
+  animation-duration: 80s;
+  background-image:
+    /* Night clouds with purple tint */
+    radial-gradient(ellipse 120px 40px at 20% 25%, rgba(200, 180, 255, 0.3), rgba(180, 160, 255, 0.1) 30%, transparent 50%),
+    radial-gradient(ellipse 80px 30px at 18% 23%, rgba(190, 170, 255, 0.2), transparent 40%),
+    radial-gradient(ellipse 60px 25px at 22% 27%, rgba(180, 160, 255, 0.15), transparent 35%),
+    radial-gradient(ellipse 100px 35px at 60% 40%, rgba(195, 175, 255, 0.2), rgba(175, 155, 255, 0.1) 30%, transparent 50%),
+    radial-gradient(ellipse 70px 25px at 58% 38%, rgba(185, 165, 255, 0.15), transparent 40%),
+    radial-gradient(ellipse 140px 45px at 85% 15%, rgba(205, 185, 255, 0.2), rgba(185, 165, 255, 0.05) 30%, transparent 50%),
+    radial-gradient(ellipse 110px 38px at 40% 70%, rgba(190, 170, 255, 0.1), rgba(170, 150, 255, 0.05) 30%, transparent 50%),
+    radial-gradient(ellipse 90px 32px at 75% 85%, rgba(200, 180, 255, 0.15), rgba(180, 160, 255, 0.05) 30%, transparent 50%);
 }
 
 .current-location {
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-dark);
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 1rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 300ms ease;
 }
 
 .current-temp {
-  font-size: 5rem;
+  font-size: 5.5rem;
   font-weight: 800;
   color: var(--blue-600);
-  margin: 0.5rem 0;
-  text-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+  margin: 1rem 0;
+  text-shadow: 0 4px 20px rgba(14, 165, 233, 0.15);
+  line-height: 1;
+  transition: all 300ms ease;
 }
 
 .weather-description {
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   color: var(--muted);
-  margin: 0.5rem 0 2rem 0;
+  margin: 0.5rem 0 2.5rem 0;
   text-transform: capitalize;
+  font-weight: 500;
+  transition: all 300ms ease;
+}
+
+/* Time-based text color adjustments for better visibility */
+.night .current-location,
+.night .current-temp {
+  color: #e0e7ff;
+  text-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+}
+
+.night .weather-description {
+  color: #c7d2fe;
+}
+
+.evening .current-location,
+.evening .current-temp {
+  color: #78350f;
+  text-shadow: 0 4px 20px rgba(251, 146, 60, 0.3);
+}
+
+.evening .weather-description {
+  color: #a16207;
 }
 
 .weather-details {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 }
 
 .weather-detail-item {
   text-align: center;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 1rem;
-  border: 1px solid rgba(14, 165, 233, 0.1);
+  padding: 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  backdrop-filter: blur(10px);
+  transition: all 300ms ease;
+}
+
+.weather-detail-item:hover {
+  background: rgba(255, 255, 255, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.1);
 }
 
 .detail-label {
@@ -162,7 +611,8 @@ html, body {
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
 }
 
 .detail-value {
@@ -171,30 +621,67 @@ html, body {
   color: var(--blue-600);
 }
 
-/* Forecast cards grid */
+/* Forecast cards grid - optimized for sidebar */
 .forecast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
-  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 300ms ease;
+}
+
+/* Time-based forecast grid adjustments */
+.night .forecast-grid {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
+}
+
+.evening .forecast-grid {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(251, 191, 36, 0.3);
+  box-shadow: 0 15px 35px rgba(251, 146, 60, 0.15);
 }
 
 .forecast-card {
-  background: var(--card-bg);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  padding: 1.25rem;
   text-align: center;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.1);
+  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: all 200ms ease;
+  transition: all 300ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.forecast-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 500ms ease;
+}
+
+.forecast-card:hover::before {
+  left: 100%;
 }
 
 .forecast-card:hover {
-  transform: translateY(-4px);
+  transform: translateX(4px);
   box-shadow: 
-    0 12px 32px rgba(14, 165, 233, 0.15),
+    0 8px 30px rgba(14, 165, 233, 0.15),
     0 0 20px rgba(251, 191, 36, 0.1);
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .forecast-day {
@@ -205,119 +692,420 @@ html, body {
 }
 
 .forecast-temp {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--blue-600);
   margin: 0.5rem 0;
 }
 
 .forecast-condition {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--muted);
   text-transform: capitalize;
+  font-weight: 500;
 }
 
-/* Search bar */
+/* Search bar - enhanced for laptop layout */
 .search-container {
   background: var(--card-bg);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  margin-bottom: 2rem;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 15px 35px rgba(14, 165, 233, 0.12),
+    0 0 1px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  margin-bottom: 0;
 }
 
 .search-wrapper {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   align-items: center;
 }
 
 .search-input {
   flex: 1;
-  padding: 0.875rem 1.25rem;
-  border-radius: 9999px;
+  padding: 1rem 1.5rem;
+  border-radius: 1rem;
   border: 2px solid rgba(14, 165, 233, 0.2);
   background: rgba(255, 255, 255, 0.9);
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--text-dark);
-  transition: all 200ms ease;
+  transition: all 300ms ease;
+  font-weight: 500;
 }
 
 .search-input:focus {
   outline: none;
   border-color: var(--blue-500);
-  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+  box-shadow: 
+    0 0 0 4px rgba(14, 165, 233, 0.1),
+    0 4px 12px rgba(14, 165, 233, 0.15);
+  transform: translateY(-1px);
 }
 
 .search-btn {
-  padding: 0.875rem 1.75rem;
+  padding: 1rem 2rem;
   background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
   color: var(--white);
   border: none;
-  border-radius: 9999px;
+  border-radius: 1rem;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 200ms ease;
-  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+  transition: all 300ms ease;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
 }
 
 .search-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4);
+  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
 }
 
-/* Additional info cards */
+/* Additional info cards - sidebar content */
 .info-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
-  margin-top: 2rem;
 }
 
 .info-card {
   background: var(--card-bg);
-  border-radius: 1.25rem;
+  border-radius: 1.5rem;
   padding: 2rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition: all 300ms ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 45px rgba(14, 165, 233, 0.15);
 }
 
 .info-card-title {
-  font-size: 1.125rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--text-dark);
   margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(14, 165, 233, 0.1);
 }
 
 .info-card-content {
   color: var(--muted);
   line-height: 1.6;
+  font-weight: 500;
 }
 
-/* Responsive design */
-@media (min-width: 768px) {
-  .homepage-main {
-    grid-template-columns: 2fr 1fr;
+/* Outfit recommendation specific styles */
+.outfit-card {
+  background: linear-gradient(135deg, 
+    rgba(251, 191, 36, 0.1) 0%, 
+    rgba(255, 255, 255, 0.95) 50%,
+    rgba(56, 189, 248, 0.1) 100%
+  ) !important;
+  border: 2px solid rgba(251, 191, 36, 0.2) !important;
+}
+
+.outfit-icons {
+  font-size: 2rem;
+  text-align: center;
+  margin: 1rem 0;
+  letter-spacing: 0.5rem;
+}
+
+.outfit-suggestion {
+  font-weight: 600;
+  color: var(--blue-700);
+  text-align: center;
+  margin: 0.5rem 0 1rem 0;
+  font-size: 1rem;
+}
+
+.outfit-tips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.outfit-tip {
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border-left: 3px solid rgba(251, 191, 36, 0.6);
+  font-weight: 500;
+}
+
+/* Time-based outfit card styling */
+.night .outfit-card {
+  background: linear-gradient(135deg, 
+    rgba(139, 92, 246, 0.15) 0%, 
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(99, 102, 241, 0.1) 100%
+  ) !important;
+  border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.night .outfit-suggestion {
+  color: #e0e7ff;
+}
+
+.night .outfit-tip {
+  background: rgba(255, 255, 255, 0.15);
+  color: #e0e7ff;
+  border-left-color: rgba(139, 92, 246, 0.6);
+}
+
+.evening .outfit-card {
+  background: linear-gradient(135deg, 
+    rgba(251, 146, 60, 0.15) 0%, 
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(251, 191, 36, 0.1) 100%
+  ) !important;
+  border-color: rgba(251, 146, 60, 0.4) !important;
+}
+
+.evening .outfit-tip {
+  border-left-color: rgba(251, 146, 60, 0.6);
+}
+
+/* ==========================================
+   FORECAST SECTION - Bottom of Main Content
+   ========================================== */
+
+/* Forecast section wrapper */
+.forecast-section {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+/* Forecast grid for bottom placement - horizontal layout */
+.forecast-section .forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 300ms ease;
+}
+
+/* Individual forecast cards in horizontal layout */
+.forecast-section .forecast-card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.forecast-section .forecast-card:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.forecast-section .forecast-day {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  margin-bottom: 0.5rem;
+}
+
+.forecast-section .forecast-temp {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+  margin: 0.5rem 0;
+}
+
+.forecast-section .forecast-condition {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Weather icons in forecast section */
+.forecast-section img {
+  width: 48px !important;
+  height: 48px !important;
+  margin: 0.25rem auto;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Time-based forecast section theming */
+.homepage-container.morning .forecast-section .forecast-grid {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 15px 35px rgba(100, 150, 255, 0.1);
+}
+
+.homepage-container.day .forecast-section .forecast-grid {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 15px 35px rgba(50, 100, 200, 0.1);
+}
+
+.homepage-container.evening .forecast-section .forecast-grid {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 15px 35px rgba(251, 146, 60, 0.15);
+}
+
+.homepage-container.night .forecast-section .forecast-grid {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
+}
+
+/* ==========================================
+   RESPONSIVE FORECAST SECTION
+   ========================================== */
+
+@media (max-width: 1200px) {
+  .forecast-section .forecast-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+  
+  .forecast-section .forecast-card {
+    padding: 0.75rem 0.5rem;
+    min-height: 120px;
+  }
+  
+  .forecast-section img {
+    width: 40px !important;
+    height: 40px !important;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 968px) {
+  .forecast-section .forecast-grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+  
+  .forecast-section .forecast-card {
+    padding: 0.5rem 0.25rem;
+    min-height: 100px;
+  }
+  
+  .forecast-section .forecast-day {
+    font-size: 0.8rem;
+  }
+  
+  .forecast-section .forecast-temp {
+    font-size: 1.1rem;
+  }
+  
+  .forecast-section .forecast-condition {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .forecast-section {
+    margin-top: 1.5rem;
+  }
+  
+  .forecast-section .forecast-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .forecast-section .forecast-card {
+    min-height: 140px;
+    padding: 1rem 0.5rem;
+  }
+  
+  .forecast-section .forecast-day {
+    font-size: 0.9rem;
+  }
+  
+  .forecast-section .forecast-temp {
+    font-size: 1.2rem;
+  }
+  
+  .forecast-section .forecast-condition {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .forecast-section .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Responsive design for laptops and tablets */
+@media (max-width: 1200px) {
+  .homepage-main {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .weather-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .homepage-container {
+    padding: 1rem;
+  }
+  
   .homepage-header {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+    padding: 1.5rem;
   }
   
   .homepage-nav {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    justify-content: center;
   }
   
   .nav-btn {
-    width: 100%;
+    flex: 1;
+    max-width: 120px;
+  }
+  
+  .homepage-main {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .sidebar-content {
+    position: static;
+  }
+  
+  .forecast-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
   
   .weather-card-large {
@@ -334,5 +1122,14 @@ html, body {
   
   .search-btn {
     width: 100%;
+  }
+  
+  .weather-details {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .info-cards {
+    grid-template-columns: 1fr;
   }
 }
