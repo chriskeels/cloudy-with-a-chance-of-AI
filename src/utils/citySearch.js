@@ -1,3 +1,50 @@
+// City nicknames and common abbreviations mapping
+const CITY_NICKNAMES = {
+  'philly': 'Philadelphia',
+  'nyc': 'New York',
+  'la': 'Los Angeles',
+  'sf': 'San Francisco',
+  'chi': 'Chicago',
+  'bos': 'Boston',
+  'dc': 'Washington DC',
+  'miami': 'Miami, FL',
+  'vegas': 'Las Vegas, NV',
+  'phoenix': 'Phoenix, AZ',
+  'seattle': 'Seattle, WA',
+  'portland': 'Portland, OR',
+  'denver': 'Denver, CO',
+  'atlanta': 'Atlanta, GA',
+  'dallas': 'Dallas, TX',
+  'houston': 'Houston, TX',
+  'austin': 'Austin, TX',
+  'nola': 'New Orleans, LA',
+  'nashville': 'Nashville, TN',
+  'charlotte': 'Charlotte, NC',
+  'tampa': 'Tampa, FL',
+  'orlando': 'Orlando, FL',
+  'detroit': 'Detroit, MI',
+  'columbus': 'Columbus, OH',
+  'indy': 'Indianapolis, IN',
+  'milwaukee': 'Milwaukee, WI',
+  'memphis': 'Memphis, TN',
+  'baltimore': 'Baltimore, MD',
+  'sacramento': 'Sacramento, CA',
+  'kansas city': 'Kansas City, MO',
+  'salt lake city': 'Salt Lake City, UT',
+  'tucson': 'Tucson, AZ',
+  'fresno': 'Fresno, CA',
+  'mesa': 'Mesa, AZ',
+  'virginia beach': 'Virginia Beach, VA',
+  'oklahoma city': 'Oklahoma City, OK',
+  'raleigh': 'Raleigh, NC',
+  'long beach': 'Long Beach, CA',
+  'colorado springs': 'Colorado Springs, CO',
+  'omaha': 'Omaha, NE',
+  'buffalo': 'Buffalo, NY',
+  'newark': 'Newark, NJ',
+  'pittsburgh': 'Pittsburgh, PA'
+};
+
 // State to cities mapping for random city selection
 const STATE_CITIES = {
   // Major US States with popular cities
@@ -106,6 +153,17 @@ const STATE_CITIES = {
 };
 
 /**
+ * Check if input contains only numbers and numeric characters
+ * @param {string} input - The input string to validate
+ * @returns {boolean} - True if input contains only numeric characters
+ */
+function isNumericOnly(input) {
+  // Remove spaces and check if remaining characters are only digits, dots, commas, or dashes
+  const cleanedInput = input.replace(/\s/g, '');
+  return /^[\d.,\-+()]*$/.test(cleanedInput) && /\d/.test(cleanedInput);
+}
+
+/**
  * Processes search input to handle state names and return a city
  * If a state name is entered, returns a random city from that state
  * Otherwise returns the original input
@@ -115,21 +173,39 @@ const STATE_CITIES = {
  */
 export function processSearchInput(input) {
   if (!input || typeof input !== 'string') {
-    return input;
+    return { city: input, type: 'direct' };
   }
 
   // Clean and normalize the input
   const cleanInput = input.trim().toLowerCase();
   
+  // Reject numeric-only inputs
+  if (isNumericOnly(cleanInput)) {
+    throw new Error('Please enter a city or state name, not numbers.');
+  }
+
+  // Check if the input matches a city nickname first
+  if (CITY_NICKNAMES[cleanInput]) {
+    return { 
+      city: CITY_NICKNAMES[cleanInput], 
+      type: 'nickname',
+      original: input.trim()
+    };
+  }
+  
   // Check if the input matches a state name or abbreviation
   if (STATE_CITIES[cleanInput]) {
     const cities = STATE_CITIES[cleanInput];
-    // Return a random city from the state
-    return cities[Math.floor(Math.random() * cities.length)];
+    const selectedCity = cities[Math.floor(Math.random() * cities.length)];
+    return { 
+      city: selectedCity, 
+      type: 'state',
+      original: input.trim()
+    };
   }
 
-  // If not a state, return the original input (assuming it's a city)
-  return input.trim();
+  // If not a state or known nickname, return the original input (assuming it's a city)
+  return { city: input.trim(), type: 'direct' };
 }
 
 export default processSearchInput;

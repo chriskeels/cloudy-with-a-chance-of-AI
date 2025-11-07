@@ -376,64 +376,7 @@ html, body {
 }
 
 /* Weather card - main focal point with enhanced design */
-.weather-card-large {
-  background: linear-gradient(135deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.9) 100%);
-  border-radius: 2rem;
-  padding: 3rem;
-  backdrop-filter: blur(20px);
-  box-shadow: 
-    0 25px 80px rgba(14, 165, 233, 0.2),
-    0 0 2px rgba(255, 255, 255, 0.8),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  position: relative;
-  overflow: hidden;
-  transition: all 400ms ease;
-}
 
-/* Time-based weather card adjustments */
-.night .weather-card-large {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 25px 80px rgba(139, 92, 246, 0.3),
-    0 0 2px rgba(255, 255, 255, 0.4),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
-}
-
-.evening .weather-card-large {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
-  border-color: rgba(251, 191, 36, 0.4);
-  box-shadow: 
-    0 25px 80px rgba(251, 146, 60, 0.25),
-    0 0 2px rgba(255, 255, 255, 0.6),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
-}
-
-.weather-card-large:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 30px 100px rgba(14, 165, 233, 0.25),
-    0 0 4px rgba(255, 255, 255, 0.9),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9);
-}
-
-.weather-card-large::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -20%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-10px) rotate(5deg); }
-}
 
 /* ==========================================
    ANIMATED CLOUDS BACKGROUND SYSTEM
@@ -621,148 +564,9 @@ html, body {
   color: var(--blue-600);
 }
 
-/* Forecast cards grid - optimized for sidebar */
-.forecast-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 1.5rem;
-  background: var(--card-bg);
-  border-radius: 1.5rem;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  transition: all 300ms ease;
-}
 
-/* Time-based forecast grid adjustments */
-.night .forecast-grid {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
-}
 
-.evening .forecast-grid {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(251, 191, 36, 0.3);
-  box-shadow: 0 15px 35px rgba(251, 146, 60, 0.15);
-}
 
-.forecast-card {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 1rem;
-  padding: 1.25rem;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(14, 165, 233, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transition: all 300ms ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.forecast-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 500ms ease;
-}
-
-.forecast-card:hover::before {
-  left: 100%;
-}
-
-.forecast-card:hover {
-  transform: translateX(4px);
-  box-shadow: 
-    0 8px 30px rgba(14, 165, 233, 0.15),
-    0 0 20px rgba(251, 191, 36, 0.1);
-  background: rgba(255, 255, 255, 0.9);
-}
-
-.forecast-day {
-  font-weight: 700;
-  color: var(--text-dark);
-  font-size: 1rem;
-  margin-bottom: 0.75rem;
-}
-
-.forecast-temp {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--blue-600);
-  margin: 0.5rem 0;
-}
-
-.forecast-condition {
-  font-size: 0.8rem;
-  color: var(--muted);
-  text-transform: capitalize;
-  font-weight: 500;
-}
-
-/* Search bar - enhanced for laptop layout */
-.search-container {
-  background: var(--card-bg);
-  border-radius: 1.5rem;
-  padding: 2rem;
-  backdrop-filter: blur(15px);
-  box-shadow: 
-    0 15px 35px rgba(14, 165, 233, 0.12),
-    0 0 1px rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  margin-bottom: 0;
-}
-
-.search-wrapper {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.search-input {
-  flex: 1;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  border: 2px solid rgba(14, 165, 233, 0.2);
-  background: rgba(255, 255, 255, 0.9);
-  font-size: 1.1rem;
-  color: var(--text-dark);
-  transition: all 300ms ease;
-  font-weight: 500;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--blue-500);
-  box-shadow: 
-    0 0 0 4px rgba(14, 165, 233, 0.1),
-    0 4px 12px rgba(14, 165, 233, 0.15);
-  transform: translateY(-1px);
-}
-
-.search-btn {
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, var(--blue-500), var(--blue-600));
-  color: var(--white);
-  border: none;
-  border-radius: 1rem;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 300ms ease;
-  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.3);
-}
-
-.search-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(14, 165, 233, 0.4);
-  background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
-}
 
 /* Additional info cards - sidebar content */
 .info-cards {
@@ -876,189 +680,9 @@ html, body {
   border-left-color: rgba(251, 146, 60, 0.6);
 }
 
-/* ==========================================
-   FORECAST SECTION - Bottom of Main Content
-   ========================================== */
 
-/* Forecast section wrapper */
-.forecast-section {
-  margin-top: 2rem;
-  width: 100%;
-}
 
-/* Forecast grid for bottom placement - horizontal layout */
-.forecast-section .forecast-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 1rem;
-  padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 300ms ease;
-}
 
-/* Individual forecast cards in horizontal layout */
-.forecast-section .forecast-card {
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 1rem;
-  padding: 1rem 0.5rem;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.forecast-section .forecast-card:hover {
-  transform: translateY(-3px);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.forecast-section .forecast-day {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  margin-bottom: 0.5rem;
-}
-
-.forecast-section .forecast-temp {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
-  margin: 0.5rem 0;
-}
-
-.forecast-section .forecast-condition {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  line-height: 1.2;
-}
-
-/* Weather icons in forecast section */
-.forecast-section img {
-  width: 48px !important;
-  height: 48px !important;
-  margin: 0.25rem auto;
-  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
-}
-
-/* Time-based forecast section theming */
-.homepage-container.morning .forecast-section .forecast-grid {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 15px 35px rgba(100, 150, 255, 0.1);
-}
-
-.homepage-container.day .forecast-section .forecast-grid {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 15px 35px rgba(50, 100, 200, 0.1);
-}
-
-.homepage-container.evening .forecast-section .forecast-grid {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 15px 35px rgba(251, 146, 60, 0.15);
-}
-
-.homepage-container.night .forecast-section .forecast-grid {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 35px rgba(139, 92, 246, 0.2);
-}
-
-/* ==========================================
-   RESPONSIVE FORECAST SECTION
-   ========================================== */
-
-@media (max-width: 1200px) {
-  .forecast-section .forecast-grid {
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.75rem;
-    padding: 1rem;
-  }
-  
-  .forecast-section .forecast-card {
-    padding: 0.75rem 0.5rem;
-    min-height: 120px;
-  }
-  
-  .forecast-section img {
-    width: 40px !important;
-    height: 40px !important;
-  }
-}
-
-@media (max-width: 968px) {
-  .forecast-section .forecast-grid {
-    grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
-    padding: 0.75rem;
-  }
-  
-  .forecast-section .forecast-card {
-    padding: 0.5rem 0.25rem;
-    min-height: 100px;
-  }
-  
-  .forecast-section .forecast-day {
-    font-size: 0.8rem;
-  }
-  
-  .forecast-section .forecast-temp {
-    font-size: 1.1rem;
-  }
-  
-  .forecast-section .forecast-condition {
-    font-size: 0.7rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .forecast-section {
-    margin-top: 1.5rem;
-  }
-  
-  .forecast-section .forecast-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0.75rem;
-  }
-  
-  .forecast-section .forecast-card {
-    min-height: 140px;
-    padding: 1rem 0.5rem;
-  }
-  
-  .forecast-section .forecast-day {
-    font-size: 0.9rem;
-  }
-  
-  .forecast-section .forecast-temp {
-    font-size: 1.2rem;
-  }
-  
-  .forecast-section .forecast-condition {
-    font-size: 0.75rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .forecast-section .forecast-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-}
 
 /* Responsive design for laptops and tablets */
 @media (max-width: 1200px) {
@@ -1104,10 +728,6 @@ html, body {
     position: static;
   }
   
-  .forecast-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-  
   .weather-card-large {
     padding: 2rem 1.5rem;
   }
@@ -1116,13 +736,7 @@ html, body {
     font-size: 4rem;
   }
   
-  .search-wrapper {
-    flex-direction: column;
-  }
-  
-  .search-btn {
-    width: 100%;
-  }
+
   
   .weather-details {
     grid-template-columns: repeat(2, 1fr);
