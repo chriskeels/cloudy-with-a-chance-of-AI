@@ -20,6 +20,7 @@ export default function Frontpage() {
     const navigate = useNavigate()
 
   return (
+    <div className="frontpage-container">
       <section className="frontpage-section">
         <h1 className="frontpage-title">
           Welcome to Cloudy with a chance of AI
@@ -57,5 +58,6 @@ export default function Frontpage() {
 
         <p className="frontpage-footer">By continuing you agree to our terms and privacy policy.</p>
       </section>
+    </div>
   )
 }

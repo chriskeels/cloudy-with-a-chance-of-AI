@@ -1,7 +1,10 @@
-/* Reset */
-html, body {
+/* Frontpage-specific body styles - only when frontpage is active */
+.frontpage-container {
   min-height: 100vh;
-  width: 100%;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,6 +22,62 @@ html, body {
       #ffffff 100%
     );
   box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Animated clouds background for frontpage only */
+.frontpage-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    /* Cloud 1 */
+    radial-gradient(ellipse 150px 50px at 25% 30%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.5) 30%, transparent 50%),
+    radial-gradient(ellipse 100px 35px at 23% 28%, rgba(255, 255, 255, 0.6), transparent 40%),
+    radial-gradient(ellipse 75px 30px at 27% 32%, rgba(255, 255, 255, 0.5), transparent 35%),
+    
+    /* Cloud 2 */
+    radial-gradient(ellipse 120px 40px at 65% 20%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4) 30%, transparent 50%),
+    radial-gradient(ellipse 85px 30px at 63% 18%, rgba(255, 255, 255, 0.5), transparent 40%),
+    radial-gradient(ellipse 60px 25px at 67% 22%, rgba(255, 255, 255, 0.4), transparent 35%),
+    
+    /* Cloud 3 */
+    radial-gradient(ellipse 110px 38px at 15% 75%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.3) 30%, transparent 50%),
+    radial-gradient(ellipse 75px 28px at 13% 73%, rgba(255, 255, 255, 0.4), transparent 40%),
+    
+    /* Cloud 4 */
+    radial-gradient(ellipse 140px 45px at 80% 65%, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2) 30%, transparent 50%),
+    radial-gradient(ellipse 95px 35px at 78% 63%, rgba(255, 255, 255, 0.3), transparent 40%),
+    
+    /* Cloud 5 */
+    radial-gradient(ellipse 100px 35px at 45% 10%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.4) 30%, transparent 50%),
+    radial-gradient(ellipse 70px 25px at 43% 8%, rgba(255, 255, 255, 0.5), transparent 40%);
+  
+  background-size: 100% 100%;
+  animation: driftClouds 50s linear infinite;
+}
+
+/* Cloud animation - moves from right to left */
+@keyframes driftClouds {
+  0% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
 }
 
 :root{
@@ -30,27 +89,24 @@ html, body {
   --muted: #6b7280;
 }
 
-/* Main container with blue-to-white gradient and yellow accents */
-.frontpage-container{
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  background: 
-    radial-gradient(circle at 15% 20%, rgba(251, 191, 36, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 85% 80%, rgba(252, 211, 77, 0.12) 0%, transparent 45%),
-    radial-gradient(circle at 50% 10%, rgba(251, 191, 36, 0.08) 0%, transparent 60%),
-    linear-gradient(180deg, 
-      #0ea5e9 0%, 
-      #38bdf8 25%, 
-      #7dd3fc 50%, 
-      #bae6fd 70%, 
-      #e0f2fe 85%, 
-      #ffffff 100%
-    );
-  box-sizing: border-box;
+/* Remove any duplicate cloud definitions - clouds are now on ::before */
+
+/* Slower cloud animation for frontpage */
+@keyframes driftCloudsFrontpage {
+  0% {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(-250px);
+    opacity: 0;
+  }
 }
 
 /* Card with glassmorphism effect */
@@ -70,6 +126,7 @@ html, body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
+  z-index: 10;
 }
 
 /* Subtle yellow glow effect on card */
