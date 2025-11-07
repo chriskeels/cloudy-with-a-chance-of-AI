@@ -6,46 +6,17 @@ import WeatherCard from '../components/WeatherCard'
 import ForecastGrid from '../components/ForecastGrid'
 import { processSearchInput } from '../utils/citySearch'
 
-/**
- * Homepage Component
- * 
- * CONCEPT: Create Components - Main page component that orchestrates the weather app functionality.
- * This component demonstrates several key React concepts working together.
- * 
- * CONCEPT: Hooks - Uses multiple React hooks (useState, useEffect) to manage state and side effects.
- * 
- * CONCEPT: useState - Manages multiple pieces of state for weather data, loading states, and error handling.
- * State allows the component to be interactive and respond to user actions and data changes.
- * 
- * CONCEPT: useEffect - Performs side effects like API calls after component renders.
- * Used here to auto-detect user's location and fetch weather data on component mount.
- * 
- * CONCEPT: API Calls - Demonstrates fetching data from external weather API with proper error handling.
- * 
- * CONCEPT: Passing Props - Passes state and functions down to child components (SearchBar, WeatherCard, ForecastGrid).
- * This enables component composition and keeps data flowing downward in the component tree.
- * 
- * CONCEPT: Lifting State - All weather-related state lives in this parent component and is shared
- * between child components through props. This ensures data consistency across the app.
- */
 export default function Homepage() {
-  // CONCEPT: useState - Managing multiple pieces of state for different aspects of the weather app
-  // Each useState call returns [currentValue, setterFunction] array that we destructure
-  const [currentWeather, setCurrentWeather] = useState(null) // Stores current weather data object
-  const [forecast, setForecast] = useState([]) // Stores array of forecast days
-  const [error, setError] = useState('') // Stores error messages for user feedback
-  const [loading, setLoading] = useState(false) // Tracks loading state for better UX
-  const [stateConversionMessage, setStateConversionMessage] = useState('') // Message when state is converted to city
-  const [timeOfDay, setTimeOfDay] = useState('') // Tracks current time of day for styling
-  const [testTime, setTestTime] = useState(null) // For testing different times of day
+  const [currentWeather, setCurrentWeather] = useState(null)
+  const [forecast, setForecast] = useState([])
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [stateConversionMessage, setStateConversionMessage] = useState('')
+  const [timeOfDay, setTimeOfDay] = useState('')
+  const [testTime, setTestTime] = useState(null)
 
-  // Environment variable access for API key - keeps sensitive data secure
   const API_KEY = import.meta.env.VITE_WEATHER_API_KEY
 
-  /**
-   * Determines the current time of day based on hour
-   * @returns {string} - 'morning', 'afternoon', 'evening', or 'night'
-   */
   function getTimeOfDay() {
     const hour = testTime !== null ? testTime : new Date().getHours()
     if (hour >= 6 && hour < 12) return 'morning'
@@ -54,9 +25,6 @@ export default function Homepage() {
     return 'night'
   }
 
-  /**
-   * Cycles through different times of day for testing purposes
-   */
   function cycleTimeOfDay() {
     const times = [8, 14, 18, 22]
     const current = testTime !== null ? testTime : new Date().getHours()
@@ -65,12 +33,6 @@ export default function Homepage() {
     setTestTime(times[nextIndex])
   }
 
-  /**
-   * CONCEPT: API Calls - Async function that fetches weather data from external API
-   * Demonstrates proper error handling, loading states, and data transformation
-   * 
-   * @param {string} searchInput - User search input (city name, state name, or 'auto:ip' for location detection)
-   */
   async function fetchWeather(searchInput) {
     try {
       // Reset error state and set loading to true
@@ -85,36 +47,17 @@ export default function Homepage() {
         return
       }
 
-      // Process search input - convert state names to random cities
-      // Skip processing for special cases like 'auto:ip'
-      let cityToSearch
-      let conversionInfo = null
-      
-      if (searchInput === 'auto:ip') {
-        cityToSearch = searchInput
-      } else {
-        try {
-          conversionInfo = processSearchInput(searchInput)
-          cityToSearch = conversionInfo.city
-        } catch (validationError) {
-          setError(validationError.message)
-          setLoading(false)
-          return
-        }
-      }
-      
-      // Show user which city was selected based on conversion type
-      if (conversionInfo && conversionInfo.type !== 'direct') {
-        if (conversionInfo.type === 'nickname') {
-          setStateConversionMessage(`Found city nickname "${conversionInfo.original}" - showing weather for ${conversionInfo.city}`)
-        } else if (conversionInfo.type === 'state') {
-          setStateConversionMessage(`Found state "${conversionInfo.original}" - showing weather for ${conversionInfo.city}`)
-        }
+      const cityToSearch =
+        searchInput === 'auto:ip' ? searchInput : processSearchInput(searchInput)
+
+      if (cityToSearch !== searchInput && searchInput !== 'auto:ip') {
+        setStateConversionMessage(
+          `Found state "${searchInput}" - showing weather for ${cityToSearch}`
+        )
       }
 
-      // CONCEPT: API Calls - Using fetch() to make HTTP request to weather API
       const res = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityToSearch}&days=10`
+        `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${cityToSearch}&days=7&aqi=no&alerts=no`
       )
       const data = await res.json()
 
@@ -127,8 +70,6 @@ export default function Homepage() {
         return
       }
 
-      // CONCEPT: useState - Updating state with transformed API data
-      // ✅ Add https: to the icon URL for proper image loading
       setCurrentWeather({
         location: `${data.location.name}, ${data.location.region}`,
         temp: data.current.temp_f,
@@ -137,52 +78,17 @@ export default function Homepage() {
         windSpeed: data.current.wind_mph,
         pressure: data.current.pressure_mb,
         uvIndex: data.current.uv,
-        icon: `https:${data.current.condition.icon}` // fixed here
+        icon: `https:${data.current.condition.icon}`
       })
 
-      // Transform forecast data into the format our components expect
-      // Always show 7 days starting from today
-      const today = new Date()
-      today.setHours(0, 0, 0, 0) // Reset to start of day for comparison
-      
-      // Create exactly 7 days starting from today
-      const forecast7Days = []
-      for (let i = 0; i < 7; i++) {
-        const targetDate = new Date(today)
-        targetDate.setDate(today.getDate() + i)
-        
-        // Find matching day in API data
-        const matchingDay = data.forecast.forecastday.find(day => {
-          const dayDate = new Date(day.date)
-          dayDate.setHours(0, 0, 0, 0)
-          return dayDate.getTime() === targetDate.getTime()
-        })
-        
-        const dayName = i === 0 ? 'Today' : targetDate.toLocaleDateString('en-US', {
-          weekday: 'long'
-        })
-        
-        if (matchingDay) {
-          // Use real API data
-          forecast7Days.push({
-            day: dayName,
-            temp: Math.round(matchingDay.day.avgtemp_f),
-            condition: matchingDay.day.condition.text,
-            icon: `https:${matchingDay.day.condition.icon}`
-          })
-        } else {
-          // Use the last available day's data as fallback (better than placeholder)
-          const lastAvailableDay = data.forecast.forecastday[data.forecast.forecastday.length - 1]
-          forecast7Days.push({
-            day: dayName,
-            temp: Math.round(lastAvailableDay.day.avgtemp_f),
-            condition: lastAvailableDay.day.condition.text,
-            icon: `https:${lastAvailableDay.day.condition.icon}`
-          })
-        }
-      }
-      
-      setForecast(forecast7Days)
+      setForecast(
+        data.forecast.forecastday.map(day => ({
+          day: new Date(day.date).toLocaleDateString('en-US', { weekday: 'long' }),
+          temp: day.day.avgtemp_f,
+          condition: day.day.condition.text,
+          icon: `https:${day.day.condition.icon}`
+        }))
+      )
     } catch (err) {
       console.error(err)
       setError('Failed to fetch weather data.')
@@ -192,14 +98,10 @@ export default function Homepage() {
     }
   }
 
-  // CONCEPT: useEffect - Perform side effect (API call) after component mounts
-  // Empty dependency array [] means this runs once on mount, like componentDidMount
-  // 🧠 Auto-detect location by IP on load for better user experience
   useEffect(() => {
     fetchWeather('auto:ip')
-  }, []) // Empty dependency array = run once on mount
+  }, [])
 
-  // useEffect to update time of day when testTime changes
   useEffect(() => {
     setTimeOfDay(getTimeOfDay())
   }, [testTime])

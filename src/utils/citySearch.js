@@ -1,7 +1,7 @@
 // City nicknames and common abbreviations mapping
 const CITY_NICKNAMES = {
   'philly': 'Philadelphia',
-  'nyc': 'New York',
+  'nyc': 'New York City',
   'la': 'Los Angeles',
   'sf': 'San Francisco',
   'chi': 'Chicago',
